@@ -26,5 +26,5 @@ provider "aws" {
       MAnagedBy  = "Terraform/setup"    
     }
   }
-  
+
 }

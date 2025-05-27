@@ -5,7 +5,7 @@ variable "tf_state_bucket" {
 
 variable "tf_state_lock_table" {
   description = "DynamoDB table for Terraform state locking"
-  default     = "devops_terraformlock" 
+  default     = "devops_terraformlock"
 }
 
 variable "project" {
@@ -16,5 +16,5 @@ variable "project" {
 variable "contact" {
   description = "Contact information for the project"
   default     = "test@gmail.com"
- 
+
 }
