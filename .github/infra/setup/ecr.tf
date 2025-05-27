@@ -1,7 +1,14 @@
-## Create ECR repository for Docker images
+##############################################
+# Create ECR repos for storing Docker images #
+##############################################
+
+
+provider "aws" {
+  region = "ap-southeast-2"
+}
 
 resource "aws_ecr_repository" "app" {
-  name                 = "devsops-app-api-app"
+  name                 = "recipe-app-api-app"
   image_tag_mutability = "MUTABLE"
   force_delete = true
   
@@ -11,7 +18,7 @@ resource "aws_ecr_repository" "app" {
 }
 
 resource "aws_ecr_repository" "proxy" {
-  name                 = "devsops-app-api-proxy"
+  name                 = "recipe-app-api-proxy"
   image_tag_mutability = "MUTABLE"
   force_delete = true
   
