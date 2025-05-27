@@ -22,7 +22,6 @@ data "aws_iam_policy_document" "tf_backend" {
     ]
     resources = [
       "arn:aws:s3:::${var.tf_state_bucket}",
-     // "arn:aws:dynamodb:ap-southeast-2:123456789012:table/devops_terraformlock"
     ]
   }
 
@@ -42,19 +41,28 @@ statement {
   statement {
     effect = "Allow"
     actions = [
+      "dynamodb:describeTable",
       "dynamodb:GetItem",
       "dynamodb:PutItem",
-      "dynamodb:DeleteItem",
-      "dynamodb:UpdateItem",
-
+      "dynamodb:DeleteItem"
     ]
     resources = [
-      "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/${var.tf_state_lock_table}"
+      "arn:aws:dynamodb:*:*:table/${var.tf_state_lock_table}"
     ]
   }
-
-
 }
+
+resource "aws_iam_policy" "tf_backend" {
+  name        = "${aws_iam_user.cd.name}-tf-s3-dynamodb"
+  description = "Policy for Terraform backend access"
+  policy      = data.aws_iam_policy_document.tf_backend.json
+}
+
+resource "aws_iam_user_policy_attachment" "tf_backend" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.tf_backend.arn
+}
+
 
 
 
